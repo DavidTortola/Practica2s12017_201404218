@@ -1,8 +1,12 @@
 import NodoListaSimple
+lista = NodoListaSimple
 
-class ListaSimple(object):
+
+
+class ListaSimple():
 	def __init__(self):
 		self.inicio = None
+		self.dato=None
 
 	def isEmpty(self):
 		if self.inicio==None:
@@ -11,32 +15,25 @@ class ListaSimple(object):
 			return False
 
 	def listaPrint(self):
-		if self.isEmpty()==True:
-			nodoAux = NodoListaSimple
 			nodoAux = self.inicio
-			while (nodoAux.getSiguiente() != None) :
-				print(nodoAux.getValor())
+			while nodoAux != None :
+				print str(nodoAux.getValor())
 				nodoAux = nodoAux.getSiguiente()
-		else:
-			print "aaa"
+
 
 
 	def add(self, valorAux):
 
-		nuevo = NodoListaSimple().setValor(valorAux)
+		nuevo = lista.NodoListaSimple(valorAux)
 
-		if self.isEmpty()==True:
+		if self.inicio==None:
 
 			self.inicio = nuevo
-
 		else:
-
-			nodoAux=NodoListaSimple
-
+			
 			nodoAux = self.inicio
 
 			while (nodoAux.getSiguiente() != None ):
 				nodoAux = nodoAux.getSiguiente()
 
 			nodoAux.setSiguiente(nuevo)
-			self.inicio=nuevo

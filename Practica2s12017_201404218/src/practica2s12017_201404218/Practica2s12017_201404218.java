@@ -31,22 +31,27 @@ public class Practica2s12017_201404218 {
     public static void main(String[] args) {
         // TODO code application logic here
 
-        String nombre = "Marco";
-        RequestBody formBody = new FormEncodingBuilder()
-                .add("dato", nombre)
-                .add("dato2", "4")
-                .build();
-        String r = getString("kateleen", formBody);
-        System.out.println(r + "---");
-
+        //sendText("kate");
+        
         menu1.setVisible(true);
 
+    }
+
+    public static String sendText(String nombre) {
+
+        RequestBody formBody = new FormEncodingBuilder()
+                .add("dato", nombre)
+                .add("dato2", "hola")
+                .build();
+        String r = getString("kateleen", formBody);
+        System.out.println(r);
+        return r;
     }
 
     public static String getString(String metodo, RequestBody formBody) {
 
         try {
-            URL url = new URL("http://127.0.0.1:5000/" + metodo);
+            URL url = new URL("http://127.0.0.2:5000/" + metodo);
             Request request = new Request.Builder().url(url).post(formBody).build();
             Response response = webClient.newCall(request).execute();//Aqui obtiene la respuesta en dado caso si hayas pues un return en python
             String response_string = response.body().string();//y este seria el string de las respuesta

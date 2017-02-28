@@ -49,6 +49,11 @@ public class MenuLista extends javax.swing.JFrame {
         button1.setBackground(new java.awt.Color(255, 255, 255));
         button1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         button1.setLabel("Agregar");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
 
         button2.setBackground(new java.awt.Color(255, 255, 255));
         button2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -156,6 +161,15 @@ public class MenuLista extends javax.swing.JFrame {
         Practica2s12017_201404218.menu1.setVisible(true);
         
     }//GEN-LAST:event_button3ActionPerformed
+
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        // TODO add your handling code here:
+        
+        
+        textField1.setText(Practica2s12017_201404218.sendText(textField1.getText()));
+        
+        
+    }//GEN-LAST:event_button1ActionPerformed
 
     /**
      * @param args the command line arguments
