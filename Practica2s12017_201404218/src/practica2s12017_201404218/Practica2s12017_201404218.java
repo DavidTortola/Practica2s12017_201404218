@@ -37,17 +37,6 @@ public class Practica2s12017_201404218 {
 
     }
 
-    public static String sendText(String nombre) {
-
-        RequestBody formBody = new FormEncodingBuilder()
-                .add("dato", nombre)
-                .add("dato2", "hola")
-                .build();
-        String r = getString("kateleen", formBody);
-        System.out.println(r);
-        return r;
-    }
-
     public static String getString(String metodo, RequestBody formBody) {
 
         try {
