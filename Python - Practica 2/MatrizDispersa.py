@@ -25,7 +25,7 @@ class MatrizDispersa(object):
 			self.listaDominios = ld.ListaDoble()
 
 			#Se crea el nodo a insertar en la matriz
-			nodoNuevo = nd.NodoDoble(valor)
+			nodoNuevo = nd.NodoDoble(valor, letra, dominio)
 
 			#Se agrega los nodos respectivos en las cabeceras
 			self.listaLetras.add(letra)
@@ -51,67 +51,95 @@ class MatrizDispersa(object):
 		#Si ya existe un nodo en la matriz
 		elif self.tamanio > 0:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 			#Si ya existe la cabecera de letra y de dominio
 			if self.listaLetras.buscar(letra) != None and self.listaDominios.buscar(dominio) != None:
 
+				#Caso 1: Ya existe un nodo que une a las dos cabeceras, el valor se agrega en la lista del nodo.
+				if self.buscarMatch(letra, dominio) == True:
 
+					NodoAuxiliarDominio = self.listaDominios.buscar(dominio)
 
+					nodoAux = NodoAuxiliarDominio
 
-				#Se crean los apuntadores
-				NodoAuxiliarDominio = self.listaDominios.inicio
-				NodoAuxiliarLetras = self.listaLetras.inicio
+					while nodoAux != None:
 
-				posicionL = self.recorrerCabeceraL(letra)
-				posicionD = self.recorrerCabeceraD(dominio)
+						if nodoAux.getLetra() == letra:
+							NodoAuxiliarDominio = nodoAux
+							nodoAux = nodoAux.getAbajo()
+						else:
+							nodoAux = nodoAux.getAbajo()
 
-				print str(posicionD)
-				i=0
-				while i <= posicionL:
-					NodoAuxiliarDominio = NodoAuxiliarDominio.getAbajo()
-					i = i+1
+					NodoAuxiliarDominio.setValor(valor)	# ------------------> AQUI SE DEBE AGREGAR A LA FUTURA LISTA DEL NODO
 
-				i=0
-				while i <= posicionD:
-					NodoAuxiliarLetra = NodoAuxiliarLetra.getSiguiente()
-					i = i+1
+				#Caso 2: No existe un nodo en comun entre las cabeceras, se debe crear el nodo en medio.
+				else:
 
-				print NodoAuxiliarLetra.getValor() +" asdfasdfasd"
+					NodoAuxiliarDominio = self.listaDominios.buscar(dominio)
 
-				#Se crea el nodo a insertar en la matriz
-				nodoNuevo = nd.NodoDoble(valor)
-				
+					nodoAux = NodoAuxiliarDominio.getAbajo()
 
-				nodoNuevo.setAbajo(NodoAuxiliarDominio.getAbajo())
-				NodoAuxiliarDominio.getAbajo().setArriba(nodoNuevo)
-				nodoNuevo.setArriba(NodoAuxiliarDominio)
-				NodoAuxiliarDominio.setAbajo(nodoNuevo)
+					#Se crea el nodo a insertar en la matriz
+					nodoNuevo = nd.NodoDoble(valor, letra, dominio)
 
-				nodoNuevo.setSiguiente(NodoAuxiliarLetra.getSiguiente())
-				NodoAuxiliarLetra.getSiguiente().setAnterior(nodoNuevo)
-				nodoNuevo.setAnterior(NodoAuxiliarLetra)
-				NodoAuxiliarLetra.setSiguiente(nodoNuevo)
+					letraInsertar = letra[:1]
+					letraInsertar = ord(letraInsertar)
 
-				#Se aumenta el tamanio de la matriz
-				self.tamanio = self.tamanio + 1
+					insertado = False
+					while nodoAux != None:
+						letraComparar = nodoAux.getLetra()[:1]
+						letraComparar = ord(letraComparar)
+						
+						if letraInsertar>letraComparar:
+							nodoAux = nodoAux.getAbajo()
+						else:
 
+							nodoNuevo.setAbajo(nodoAux)
+							nodoNuevo.setArriba(nodoAux.getArriba())
+							nodoAux.getArriba().setAbajo(nodoNuevo)
+							nodoAux.setArriba(nodoNuevo)
+							insertado = True
+							break
+					if insertado == False:
+						nodoAux = NodoAuxiliarDominio.getAbajo()
+						while nodoAux.getAbajo() != None:
+							nodoAux = nodoAux.getAbajo()
+
+						nodoNuevo.setArriba(nodoAux)
+						nodoAux.setAbajo(nodoNuevo)
+
+					#Se colocan los apuntadores horizontales (desde la cabecera letra)
+					NodoAuxiliarLetra = self.listaLetras.buscar(letra)
+
+					nodoAux2 = NodoAuxiliarLetra.getSiguiente()
+
+					letraInsertar = dominio[:1]
+					letraInsertar = ord(letraInsertar)
+
+					insertado = False
+					while nodoAux2 != None:
+						letraComparar = nodoAux2.getDominio()[:1]
+						letraComparar = ord(letraComparar)
+						
+						if letraInsertar>letraComparar:
+							nodoAux2 = nodoAux2.getSiguiente()
+						else:
+
+							nodoNuevo.setSiguiente(nodoAux2)
+							nodoNuevo.setAnterior(nodoAux2.getAnterior())
+							nodoAux2.getAnterior().setSiguiente(nodoNuevo)
+							nodoAux2.setAnterior(nodoNuevo)
+							insertado = True
+							break
+					if insertado == False:
+						nodoAux2 = NodoAuxiliarLetra.getSiguiente()
+						while nodoAux2.getSiguiente() != None:
+							nodoAux2 = nodoAux2.getSiguiente()
+
+						nodoNuevo.setAnterior(nodoAux2)
+						nodoAux2.setSiguiente(nodoNuevo)
+
+					#Se aumenta el tamanio de la matriz
+					self.tamanio = self.tamanio + 1
 
 			#Si no existe la cabecera letra pero si existe el dominio
 			elif self.listaLetras.buscar(letra) == None and self.listaDominios.buscar(dominio) != None:
@@ -124,7 +152,8 @@ class MatrizDispersa(object):
 				NodoAuxiliarDominio = self.listaDominios.buscar(dominio)
 
 				#Se crea el nodo a insertar en la matriz
-				nodoNuevo = nd.NodoDoble(valor)
+				nodoNuevo = nd.NodoDoble(valor, letra, dominio)
+
 				NodoAuxiliarLetra.setSiguiente(nodoNuevo)
 
 				#Recorre y agrega al final del dominio el nuevo nodo
@@ -150,7 +179,9 @@ class MatrizDispersa(object):
 				NodoAuxiliarDominio = self.listaDominios.buscar(dominio)
 
 				#Se crea el nodo a insertar en la matriz
-				nodoNuevo = nd.NodoDoble(valor)
+				nodoNuevo = nd.NodoDoble(valor, letra, dominio)
+
+
 				NodoAuxiliarDominio.setAbajo(nodoNuevo)
 
 				#Recorre y agrega al final de la cabecera letra el nuevo nodo
@@ -176,7 +207,7 @@ class MatrizDispersa(object):
 				NodoAuxiliarDominio = self.listaDominios.buscar(dominio)
 
 				#Se crea el nodo a insertar en la matriz
-				nodoNuevo = nd.NodoDoble(valor)
+				nodoNuevo = nd.NodoDoble(valor, letra, dominio)
 				NodoAuxiliarLetra.setSiguiente(nodoNuevo)
 				NodoAuxiliarDominio.setAbajo(nodoNuevo)
 
@@ -192,15 +223,18 @@ class MatrizDispersa(object):
 		while nodoAux != None:
 			nodoAux2 = self.listaLetras.inicio
 			while nodoAux2 != None:
-				if actual != None:
-					print actual.getValor()
+				if actual.getAbajo() != None:
 					actual = actual.getAbajo()
+					if(actual.getLetra() != None and actual.getDominio() != None):
+						print actual.getValor() +" - " +actual.getLetra() +" - " +actual.getDominio()
+					else:
+						print actual.getValor() 
+
 				nodoAux2 = nodoAux2.getAbajo()
 				
 			print "  ----   "
 			nodoAux = nodoAux.getSiguiente()
 			actual = nodoAux
-
 
 	def recorrerCabeceraL(self, valor):
 		nodoAux = self.listaLetras.inicio
@@ -213,7 +247,6 @@ class MatrizDispersa(object):
 				contador = contador + 1
 		return -1
 
-
 	def recorrerCabeceraD(self, valor):
 		nodoAux = self.listaDominios.inicio
 		contador = 0
@@ -225,3 +258,11 @@ class MatrizDispersa(object):
 				contador = contador + 1
 		return -1
 
+	def buscarMatch(self, letra, dominio):
+		nodoAux = self.listaDominios.buscar(dominio)
+		while nodoAux != None:
+			if nodoAux.getLetra() == letra:
+				return True
+			else:
+				nodoAux = nodoAux.getAbajo()
+		return False
