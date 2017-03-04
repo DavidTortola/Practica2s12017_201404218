@@ -15,13 +15,18 @@ class MatrizDispersa(object):
 		self.listaDominios = None
 		self.tamanio = 0
 
+	#Metodo principal que recibe un correo y lo divide para insertarlo en la matriz
 	def add(self,correo):
+
 		valores = correo.split("@")
 		valor = valores[0]
 		dominio = valores[1]
+		dominio = dominio.split(".")
+		dominio2 = dominio[0]
 		letra = valor[:1]
 
-		self.insertar(letra,dominio,valor)
+		self.insertar(letra,dominio2,valor)
+
 	#Insertar un valor en la matriz
 	def insertar(self, letra, dominio, valor):
 
@@ -32,8 +37,10 @@ class MatrizDispersa(object):
 			self.listaLetras = ldl.ListaDobleL()
 			self.listaDominios = ld.ListaDoble()
 
+			listaNombres = ld.ListaDoble()
+			listaNombres.add(valor)
 			#Se crea el nodo a insertar en la matriz
-			nodoNuevo = nd.NodoDoble(valor, letra, dominio)
+			nodoNuevo = nd.NodoDoble(listaNombres, letra, dominio)
 
 			#Se agrega los nodos respectivos en las cabeceras
 			self.listaLetras.add(letra)
@@ -77,7 +84,7 @@ class MatrizDispersa(object):
 						else:
 							nodoAux = nodoAux.getAbajo()
 
-					NodoAuxiliarDominio.setValor(valor)	# ------------------> AQUI SE DEBE AGREGAR A LA FUTURA LISTA DEL NODO
+					NodoAuxiliarDominio.getValor().add(valor)	# ------------------> AQUI SE DEBE AGREGAR A LA FUTURA LISTA DEL NODO
 
 				#Caso 2: No existe un nodo en comun entre las cabeceras, se debe crear el nodo en medio.
 				else:
@@ -157,8 +164,10 @@ class MatrizDispersa(object):
 				NodoAuxiliarDominio = self.listaDominios.buscar(dominio)
 				nodoAux = NodoAuxiliarDominio.getAbajo()
 
+				listaNombres = ld.ListaDoble()
+				listaNombres.add(valor)
 				#Se crea el nodo a insertar en la matriz
-				nodoNuevo = nd.NodoDoble(valor, letra, dominio)
+				nodoNuevo = nd.NodoDoble(listaNombres, letra, dominio)
 
 				letraInsertar = letra[:1]
 				letraInsertar = ord(letraInsertar)
@@ -206,8 +215,10 @@ class MatrizDispersa(object):
 				#Se colocan los apuntadores horizontales (desde la cabecera letra)
 				NodoAuxiliarLetra = self.listaLetras.buscar(letra)
 
+				listaNombres = ld.ListaDoble()
+				listaNombres.add(valor)
 				#Se crea el nodo a insertar en la matriz
-				nodoNuevo = nd.NodoDoble(valor, letra, dominio)
+				nodoNuevo = nd.NodoDoble(listaNombres, letra, dominio)
 
 				nodoAux2 = NodoAuxiliarLetra.getSiguiente()
 
@@ -257,8 +268,10 @@ class MatrizDispersa(object):
 				NodoAuxiliarLetra = self.listaLetras.buscar(letra)
 				NodoAuxiliarDominio = self.listaDominios.buscar(dominio)
 
+				listaNombres = ld.ListaDoble()
+				listaNombres.add(valor)
 				#Se crea el nodo a insertar en la matriz
-				nodoNuevo = nd.NodoDoble(valor, letra, dominio)
+				nodoNuevo = nd.NodoDoble(listaNombres, letra, dominio)
 				NodoAuxiliarLetra.setSiguiente(nodoNuevo)
 				NodoAuxiliarDominio.setAbajo(nodoNuevo)
 
@@ -268,6 +281,7 @@ class MatrizDispersa(object):
 				#Se aumenta el tamanio de la matriz
 				self.tamanio = self.tamanio + 1
 
+	#Imprime la matriz en consola
 	def imprimirMatriz(self):
 		nodoAux = self.listaDominios.inicio
 		actual = nodoAux
@@ -287,6 +301,7 @@ class MatrizDispersa(object):
 			nodoAux = nodoAux.getSiguiente()
 			actual = nodoAux
 
+	#Devuelve true o false si encuentra un nodo que une a ambas cabeceras que recibe
 	def buscarMatch(self, letra, dominio):
 		nodoAux = self.listaDominios.buscar(dominio)
 		while nodoAux != None:
@@ -296,16 +311,17 @@ class MatrizDispersa(object):
 				nodoAux = nodoAux.getAbajo()
 		return False
 
+	#Crea la imagen grafica d ela matriz
 	def graficarMatriz(self):
 
 		file=open("Graficas\MatrizDispersa.txt","w")
-		file.write("digraph Matriz{ \n")
+		file.write("digraph Matriz{ bgcolor=red node[fontcolor=black, color=white] [shape=box]\n")
 
 		auxDominio = self.listaDominios.inicio
 		actual = auxDominio
 		contador = 1
 
-		file.write("i[style =\"filled\"; label=\" \";pos = \"0,0!\"] \n")
+		
 
 		#Se obtienen las cabeceras de dominio
 
@@ -338,7 +354,8 @@ class MatrizDispersa(object):
 			while auxLetra != None :
 				if actual.getAbajo() != None :
 					actual = actual.getAbajo()
-					file.write(actual.getValor()+"[style =\"filled\"; label="+actual.getValor()+";pos= \""+str(self.posX(auxDominio.getValor()))+","+str(self.posY(actual.getLetra()))+"!\"]\n")
+					file.write(actual.getValor().getInicio().getValor()+"[style =\"filled\"; label="+actual.getValor().getInicio().getValor()+";pos= \""+str(self.posX(actual.getDominio()))+","+str(self.posY(actual.getLetra()))+"!\"]\n")
+					self.graficarNombres(actual.getValor(),file)
 				auxLetra = auxLetra.getAbajo()
 			auxDominio=auxDominio.getSiguiente()
 			actual = auxDominio
@@ -346,8 +363,6 @@ class MatrizDispersa(object):
 		#Se enlazan las cabeceras hacia la derecha
 		auxDominio = self.listaDominios.inicio
 		auxLetra = self.listaLetras.inicio
-
-		file.write("\n i->"+auxDominio.getValor()+"->i->"+auxLetra.getValor()+"->i;\n")
 
 		first = True
 		actual = auxDominio
@@ -423,7 +438,7 @@ class MatrizDispersa(object):
 			while auxLetra!=None: 
 				if actual.getAbajo()!=None:
 					actual=actual.getAbajo() 
-					file.write("->"+actual.getValor())
+					file.write("->"+actual.getValor().getInicio().getValor())
 				auxLetra=auxLetra.getAbajo()
 			file.write(";\n")
 			auxDominio=auxDominio.getSiguiente() 
@@ -440,7 +455,7 @@ class MatrizDispersa(object):
 			while auxDominio!=None:
 				if actual.getSiguiente()!=None:
 					actual=actual.getSiguiente()
-					file.write("->"+actual.getValor())
+					file.write("->"+actual.getValor().getInicio().getValor())
 				auxDominio=auxDominio.getSiguiente()
 			file.write(";\n")
 			auxLetra=auxLetra.getAbajo()
@@ -457,7 +472,7 @@ class MatrizDispersa(object):
 			while auxiliar.getAbajo()!=None:
 				auxiliar=auxiliar.getAbajo()
 			while auxiliar.getArriba()!=None:
-				file.write(auxiliar.getValor()+"->")
+				file.write(auxiliar.getValor().getInicio().getValor() + "->")
 				auxiliar=auxiliar.getArriba()
 			
 			file.write(auxDominio.getValor())
@@ -472,7 +487,7 @@ class MatrizDispersa(object):
 			while auxiliar.getSiguiente()!=None:
 				auxiliar=auxiliar.getSiguiente()
 			while auxiliar.getAnterior()!=None:
-				file.write(auxiliar.getValor()+"->")
+				file.write(auxiliar.getValor().getInicio().getValor()+"->")
 				auxiliar=auxiliar.getAnterior()
 			file.write( auxLetra.getValor())
 			file.write(";\n")
@@ -482,6 +497,7 @@ class MatrizDispersa(object):
 		file.write("}")
 		subprocess.Popen("fdp -Tpng Graficas\MatrizDispersa.txt -o Graficas\MatrizDispersa.png")
 
+	#Devuelve la posicion del nodo en la grafica, en x
 	def posX(self,nodo):
 		x=1
 		auxDominio=self.listaDominios.inicio
@@ -493,6 +509,7 @@ class MatrizDispersa(object):
 				x=x+1
 				auxDominio=auxDominio.getSiguiente()
 
+	#Devuelve la posicion del nodo en la grafica, en y
 	def posY(self,nodo):
 		y=1
 		auxLetra = self.listaLetras.inicio
@@ -502,3 +519,71 @@ class MatrizDispersa(object):
 			else:
 				y=y+1
 				auxLetra=auxLetra.getAbajo()
+
+	def eliminar(self,letra,dominio,valor):
+
+		auxLetra = self.listaLetras.buscar(letra)
+		auxDominio = self.listaDominios.buscar(dominio)
+
+		if auxLetra != None and auxDominio != None:
+
+			temp = auxDominio
+
+			while temp != None:
+
+				if temp.getLetra() == letra:
+					#El nodo con esa cabecera letra y ese dominio existe
+					listaTemp = temp.getValor()
+					listaTemp.eliminarPorValor(valor)
+
+					if listaTemp.isEmpty():
+
+						#borrar el nodo
+						listaTemp
+
+						#si, al borrar el nodo, no hay ningun nodo en una de las dos cabeceras, borrar cabecera
+
+						#si no, solo borrar nodo
+					else:
+						#nada
+						listaTemp
+					return True
+				else:
+					temp = temp.getAbajo()
+			#El valor no existe
+			return False
+
+	def recorrerCabeceraD(self):
+		contador = 0
+		nodoAux = self.listaDominios.inicio
+		while nodoAux != None:
+			contador=contador+1
+			nodoAux=nodoAux.getAbajo()
+		return contador
+
+	def recorrerCabeceraL(self):
+		contador = 0
+		nodoAux = self.listaLetras.inicio
+		while nodoAux != None:
+			contador=contador+1
+			nodoAux=nodoAux.getSiguiente()
+		return contador
+
+
+	def graficarNombres(self,lista,file):
+		if lista.tamanio>1:
+			file.write(lista.inicio.getValor()+"")
+
+			auxiliar = lista.inicio
+			while auxiliar.getSiguiente()!=None:
+				auxiliar=auxiliar.getSiguiente()
+				aux = auxiliar
+				file.write("->"+auxiliar.getValor())
+			file.write(";\n")
+
+			file.write(lista.fin.getValor()+"")
+			auxiliar = lista.fin
+			while auxiliar.getAnterior()!=None:
+				auxiliar=auxiliar.getAnterior()
+				file.write("->"+auxiliar.getValor())
+			file.write(";\n")

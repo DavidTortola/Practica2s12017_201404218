@@ -17,9 +17,6 @@ class ListaDoble():
 		else:
 			return False
 
-
-
-
 	#Agrega un nodo con el valor que recibe al final de la lista
 	def add(self, valor):
 		#Crea el nodo a insertar
@@ -87,17 +84,16 @@ class ListaDoble():
 		#Aumenta el tamanio de la lista
 		self.tamanio = self.tamanio + 1
 
+
+	def getInicio(self):
+		return self.inicio
+
 	#Imprime los valores de la lista
 	def listaPrint(self):
 		nodoAux = self.inicio
 		while nodoAux != self.fin.getSiguiente():
 			print str(nodoAux.getValor())
 			nodoAux = nodoAux.getSiguiente()
-
-
-
-
-
 
 	#Agrega al inicio de la lista
 	def agregarInicio(self,valor):
@@ -120,3 +116,56 @@ class ListaDoble():
 				else:
 					nodoAux = nodoAux.getSiguiente()
 		return None
+
+	def eliminarPorValor(self,valor):
+
+		if self.isEmpty()==False:
+			nodoAux=self.inicio
+
+			while nodoAux!=self.fin.getSiguiente():
+				if nodoAux.getValor() == valor:
+
+					#Eliminar
+					#Si es el primer nodo en la lista
+					if nodoAux == self.inicio:
+
+						#Si existe un nodo siguiente
+						if nodoAux.getSiguiente() != None:
+
+							self.inicio = nodoAux.getSiguiente()
+
+							nodoAux.getSiguiente().setAnterior(None)
+							self.tamanio = self.tamanio - 1
+
+							break
+
+						#Si es el unico nodo en la lista
+						else:
+							self.inicio = None
+							self.fin = None
+							self.tamanio = 0
+
+							break
+					#Si es el ultimo nodo en la lista
+					elif nodoAux == self.fin:
+
+						#Si existe un nodo anterior (no es el unico nodo en la lista)
+						if nodoAux.getAnterior() != None:
+							self.fin = nodoAux.getAnterior()
+							nodoAux.getAnterior().setSiguiente(None)
+							self.tamanio = self.tamanio - 1
+							break
+						#Si no existe un nodo anterior
+						else:
+							self.inicio = None
+							self.fin = None
+							self.tamanio = 0
+							break
+					#Si no es ni el primero ni el ultimo
+					else:
+						nodoAux.getAnterior().setSiguiente(nodoAux.getSiguiente())
+						nodoAux.getSiguiente().setAnterior(nodoAux.getAnterior())
+						self.tamanio=self.tamanio - 1
+						break
+				else:
+					nodoAux = nodoAux.getSiguiente()

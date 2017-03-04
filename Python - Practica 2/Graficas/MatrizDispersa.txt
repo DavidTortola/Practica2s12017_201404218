@@ -1,52 +1,41 @@
-digraph Matriz{ 
-i[style ="filled"; label=" ";pos = "0,0!"] 
-1[style="filled"; label=1;pos="1,0!"]
-2[style="filled"; label=2;pos="2,0!"]
-4[style="filled"; label=4;pos="3,0!"]
-5[style="filled"; label=5;pos="4,0!"]
-8[style="filled"; label=8;pos="5,0!"]
-9[style="filled"; label=9;pos="6,0!"]
+digraph Matriz{ bgcolor=red node[fontcolor=black, color=white] [shape=box]
+hotmailcom[style="filled"; label=hotmailcom;pos="1,0!"]
+imagina[style="filled"; label=imagina;pos="2,0!"]
+kfej[style="filled"; label=kfej;pos="3,0!"]
+yahoo[style="filled"; label=yahoo;pos="4,0!"]
 a[style ="filled"; label=a;pos= "0,1!"]
-b[style ="filled"; label=b;pos= "0,2!"]
-c[style ="filled"; label=c;pos= "0,3!"]
-k[style ="filled"; label=k;pos= "0,4!"]
-t[style ="filled"; label=t;pos= "0,5!"]
-amy[style ="filled"; label=amy;pos= "1,1!"]
-comida[style ="filled"; label=comida;pos= "2,3!"]
-triciclo[style ="filled"; label=triciclo;pos= "2,5!"]
-ana[style ="filled"; label=ana;pos= "3,1!"]
-beto[style ="filled"; label=beto;pos= "4,2!"]
-kaka[style ="filled"; label=kaka;pos= "5,4!"]
-casa[style ="filled"; label=casa;pos= "6,3!"]
-
- i->1->i->a->i;
-1->2->4->5->8->9;9->8->5->4->2->1;
-a->b->c->k->t;
-t->k->c->b->a;
-1->amy;
-2->comida->triciclo;
-4->ana;
-5->beto;
-8->kaka;
-9->casa;
+d[style ="filled"; label=d;pos= "0,2!"]
+e[style ="filled"; label=e;pos= "0,3!"]
+j[style ="filled"; label=j;pos= "0,4!"]
+davidtortola_[style ="filled"; label=davidtortola_;pos= "1,2!"]
+elemental2[style ="filled"; label=elemental2;pos= "2,3!"]
+elemental2->elemental->elefante;
+elefante->elemental->elemental2;
+julio[style ="filled"; label=julio;pos= "3,4!"]
+julio->jklef;
+jklef->julio;
+asdf[style ="filled"; label=asdf;pos= "4,1!"]
+hotmailcom->imagina->kfej->yahoo;yahoo->kfej->imagina->hotmailcom;
+a->d->e->j;
+j->e->d->a;
+hotmailcom->davidtortola_;
+imagina->elemental2;
+kfej->julio;
+yahoo->asdf;
 
 
-a->amy->ana;
-b->beto;
-c->comida->casa;
-k->kaka;
-t->triciclo;
+a->asdf;
+d->davidtortola_;
+e->elemental2;
+j->julio;
 
 
-amy->1;
-triciclo->comida->2;
-ana->4;
-beto->5;
-kaka->8;
-casa->9;
-ana->amy->a;
-beto->b;
-casa->comida->c;
-kaka->k;
-triciclo->t;
+davidtortola_->hotmailcom;
+elemental2->imagina;
+julio->kfej;
+asdf->yahoo;
+asdf->a;
+davidtortola_->d;
+elemental2->e;
+julio->j;
 }
