@@ -87,12 +87,6 @@ class ListaDoble():
 		#Aumenta el tamanio de la lista
 		self.tamanio = self.tamanio + 1
 
-
-
-
-
-
-
 	#Imprime los valores de la lista
 	def listaPrint(self):
 		nodoAux = self.inicio

@@ -15,25 +15,17 @@ lista = lista1.ListaSimple()
 matrizD = MatrizDispersa
 matriz1 = matrizD.MatrizDispersa()
 
+matriz1.add("amy@1")
+matriz1.add("ana@4")
+matriz1.add("cici@2")
+matriz1.add("beto@5")
+matriz1.add("toro@2")
+matriz1.add("triciclo@2")
+matriz1.add("casa@9")
+matriz1.add("comida@2")
+matriz1.add("kaka@8")
 
-
-matriz1.insertar("a","gmail","andree")
-matriz1.insertar("a","outlook","bruto")
-matriz1.insertar("z","hotmail","asdfasfd")
-matriz1.insertar("f","gmail","asdfasfd")
-matriz1.insertar("g","hotmail","asdfasfd")
-matriz1.insertar("y","gmail","asdfasfd")
-matriz1.insertar("e","hotmail","asdfasfd")
-matriz1.insertar("a","outlook","zebra")
-matriz1.insertar("b","gmail","asdfasfd")
-
-
-
-#matriz1.imprimirMatriz()
-
-matriz1.listaLetras.listaPrint()
-matriz1.listaDominios.listaPrint()
-
+matriz1.graficarMatriz()
 
 @app.route('/listaSimple', methods = ['POST']) 
 def hello():
@@ -48,5 +40,5 @@ def hello():
 		
 		return str(lista.buscar(str(request.form['informacion']))) 
 
-if __name__ == "__main__":
-  app.run(debug=True, host='127.0.0.2')
+#if __name__ == "__main__":
+ # app.run(debug=True, host='127.0.0.2')

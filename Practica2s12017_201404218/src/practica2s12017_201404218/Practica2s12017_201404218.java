@@ -30,11 +30,8 @@ public class Practica2s12017_201404218 {
 
     public static void main(String[] args) {
         // TODO code application logic here
-
-        //sendText("kate");
         
         menu1.setVisible(true);
-
     }
 
     public static String getString(String metodo, RequestBody formBody) {
