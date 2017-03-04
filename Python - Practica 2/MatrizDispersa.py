@@ -21,11 +21,9 @@ class MatrizDispersa(object):
 		valores = correo.split("@")
 		valor = valores[0]
 		dominio = valores[1]
-		dominio = dominio.split(".")
-		dominio2 = dominio[0]
 		letra = valor[:1]
 
-		self.insertar(letra,dominio2,valor)
+		self.insertar(letra,dominio,valor)
 
 	#Insertar un valor en la matriz
 	def insertar(self, letra, dominio, valor):
@@ -84,16 +82,19 @@ class MatrizDispersa(object):
 						else:
 							nodoAux = nodoAux.getAbajo()
 
-					NodoAuxiliarDominio.getValor().add(valor)	# ------------------> AQUI SE DEBE AGREGAR A LA FUTURA LISTA DEL NODO
-
+					listaTemp = NodoAuxiliarDominio.getValor()	# ------------------> AQUI SE DEBE AGREGAR A LA FUTURA LISTA DEL NODO
+					listaTemp.add(valor)
 				#Caso 2: No existe un nodo en comun entre las cabeceras, se debe crear el nodo en medio.
 				else:
 
 					NodoAuxiliarDominio = self.listaDominios.buscar(dominio)
 					nodoAux = NodoAuxiliarDominio.getAbajo()
 
+
+					listaNombres = ld.ListaDoble()
+					listaNombres.add(valor)
 					#Se crea el nodo a insertar en la matriz
-					nodoNuevo = nd.NodoDoble(valor, letra, dominio)
+					nodoNuevo = nd.NodoDoble(listaNombres, letra, dominio)
 
 					letraInsertar = letra[:1]
 					letraInsertar = ord(letraInsertar)
@@ -326,7 +327,7 @@ class MatrizDispersa(object):
 		#Se obtienen las cabeceras de dominio
 
 		while auxDominio != None:
-			file.write(actual.getValor()+"[style=\"filled\"; label=" +actual.getValor() +";pos=\""+str(contador)+",0!\"]\n")
+			file.write("\"" +actual.getValor() +"\"" +"[style=\"filled\"; label=\"" +actual.getValor() +"\";pos=\""+str(contador)+",0!\"]\n")
 			contador = contador+1
 
 			auxDominio=auxDominio.getSiguiente()
@@ -368,16 +369,16 @@ class MatrizDispersa(object):
 		actual = auxDominio
 		while auxDominio!=None:
 			if first==True:
-				file.write(str(actual.getValor()))
+				file.write(str("\"" +actual.getValor() +"\""))
 				first=False
 			else:
-				file.write("->" +actual.getValor())
+				file.write("->" +"\""+actual.getValor()+"\"")
 
 			auxDominio=auxDominio.getSiguiente()
 			actual=auxDominio
 		file.write(";")
 
-		#Enlazar las cabeceras de letra inicial hacia abajo
+		#Enlazar las cabeceras de dominio inicial hacia izquierda
 
 		auxDominioFin = self.listaDominios.fin
 		ultimo = True
@@ -386,18 +387,18 @@ class MatrizDispersa(object):
 		while auxDominioFin != None:
 			
 			if ultimo==True:
-				file.write(str(actual.getValor()))
+				file.write(str("\"" +actual.getValor() +"\""))
 				ultimo=False
 				
 			else:
-				file.write("->"+actual.getValor())
+				file.write("->"+"\""+actual.getValor()+"\"")
 
 			auxDominioFin=auxDominioFin.getAnterior()
 			actual=auxDominioFin
 
 		file.write(";\n")
 
-		#Enlzaca cabeceras hacia la izquierda
+		#Enlzaca letras hacia la abajo
 
 		primero=True
 		actual=auxLetra
@@ -411,7 +412,7 @@ class MatrizDispersa(object):
 			actual=auxLetra
 		file.write(";\n")
 
-		#Enlazar cabeceras hacia arriba
+		#Enlazar letras hacia arriba
 
 		ultimo = True
 		auxLetraFin = self.listaLetras.fin
@@ -434,7 +435,7 @@ class MatrizDispersa(object):
 
 		while auxDominio!= None:
 			auxLetra= self.listaLetras.inicio
-			file.write(auxDominio.getValor())
+			file.write("\""+auxDominio.getValor()+"\"")
 			while auxLetra!=None: 
 				if actual.getAbajo()!=None:
 					actual=actual.getAbajo() 
@@ -475,7 +476,7 @@ class MatrizDispersa(object):
 				file.write(auxiliar.getValor().getInicio().getValor() + "->")
 				auxiliar=auxiliar.getArriba()
 			
-			file.write(auxDominio.getValor())
+			file.write("\""+auxDominio.getValor()+"\"")
 			file.write(";\n")
 			auxDominio=auxDominio.getSiguiente()
 			auxiliar=auxDominio
@@ -531,19 +532,47 @@ class MatrizDispersa(object):
 
 			while temp != None:
 
+				#Si existe el nodo en comun
 				if temp.getLetra() == letra:
+
+
 					#El nodo con esa cabecera letra y ese dominio existe
 					listaTemp = temp.getValor()
 					listaTemp.eliminarPorValor(valor)
 
-					if listaTemp.isEmpty():
 
-						#borrar el nodo
-						listaTemp
+					if listaTemp.inicio==None:
 
-						#si, al borrar el nodo, no hay ningun nodo en una de las dos cabeceras, borrar cabecera
+						#Se debe borrar el nodo
 
-						#si no, solo borrar nodo
+						#Si aun queda nodos en la cabecera de dominios
+
+						if self.recorrerCabeceraD()>2:
+							#Si el nodo no es el ultimo en la cabecera
+							if temp.getAbajo()!=None:
+								temp.getArriba().setAbajo(temp.getAbajo())
+								temp.getAbajo().setArriba(temp.getArriba())
+							#Si el nodo es el ultimo en la cabecera
+							elif temp.getAbajo()==None:
+								temp.getArriba().setAbajo(None)
+
+						#Si no queda ningun nodo en la cabecera de dominios
+						elif self.recorrerCabeceraD()==2:
+							self.listaDominios.eliminarPorValor(dominio)
+
+						#Si aun quedan nodos en cabecera de letra
+						if self.recorrerCabeceraL()>2:
+							if temp.getSiguiente()!=None:
+								temp.getAnterior().setSiguiente(temp.getSiguiente())
+								temp.getSiguiente().setAnterior(temp.getAnterior())
+							#Si el nodo es el ultimo en la cabecera
+							elif temp.getSiguiente()==None:
+								temp.getAnterior().setSiguiente(None)
+
+						#Si no queda ningun nodo en la cabecera de letras
+						elif self.recorrerCabeceraL()==2:
+							self.listaLetras.eliminarPorValor(letra)
+
 					else:
 						#nada
 						listaTemp
@@ -587,3 +616,14 @@ class MatrizDispersa(object):
 				auxiliar=auxiliar.getAnterior()
 				file.write("->"+auxiliar.getValor())
 			file.write(";\n")
+
+
+	#Metodo principal que recibe un correo y lo divide para insertarlo en la matriz
+	def borrar(self,correo):
+
+		valores = correo.split("@")
+		valor = valores[0]
+		dominio = valores[1]
+		letra = valor[:1]
+
+		self.eliminar(letra,dominio,valor)

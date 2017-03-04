@@ -12,20 +12,23 @@ lista = lista1.ListaSimple()
 matrizD = MatrizDispersa
 matriz1 = matrizD.MatrizDispersa()
 
-matriz1.add("davidtortola_@hotmailcom")
-matriz1.add("elefante@imagina")
-matriz1.add("elemental@imagina")
-matriz1.add("elemental2@imagina")
-matriz1.add("jklef@kfej")
-matriz1.add("julio@kfej")
-matriz1.add("asdf@yahoo")
-
-#matriz1.graficarMatriz()
-matriz1.graficarMatriz()
-
-matriz1.eliminar("a","yahoo","asdf")
 
 @app.route('/listaSimple', methods = ['POST']) 
+def hola():
+	if str(request.form['tipo'])=="agregar":
+		matriz1.add(str(request.form['informacion']))
+		matriz1.graficarMatriz()
+
+	elif str(request.form['tipo'])=="borrar":
+		matriz1.borrar(str(request.form['informacion']))
+		matriz1.graficarMatriz()
+
+	elif str(request.form['tipo'])=="buscar":
+		
+		return str(lista.buscar(str(request.form['informacion']))) 
+
+
+@app.route('/matrizDispersa', methods = ['POST']) 
 def hello():
 	if str(request.form['tipo'])=="agregar":
 		lista.add(str(request.form['informacion']))
@@ -38,8 +41,6 @@ def hello():
 		
 		return str(lista.buscar(str(request.form['informacion']))) 
 
-"""
+
 if __name__ == "__main__":
  app.run(debug=True, host='127.0.0.2')
-
- """

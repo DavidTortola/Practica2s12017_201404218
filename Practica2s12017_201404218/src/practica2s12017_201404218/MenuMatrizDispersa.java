@@ -5,6 +5,9 @@
  */
 package practica2s12017_201404218;
 
+import javax.swing.JOptionPane;
+import static practica2s12017_201404218.MenuLista.sendText;
+
 /**
  *
  * @author David Tórtola
@@ -52,10 +55,20 @@ public class MenuMatrizDispersa extends javax.swing.JFrame {
         button1.setBackground(new java.awt.Color(255, 255, 255));
         button1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         button1.setLabel("Agregar");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
 
         button2.setBackground(new java.awt.Color(255, 255, 255));
         button2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         button2.setLabel("Borrar");
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
 
         textField2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
@@ -175,6 +188,21 @@ public class MenuMatrizDispersa extends javax.swing.JFrame {
         Practica2s12017_201404218.menu1.setVisible(true);
 
     }//GEN-LAST:event_button3ActionPerformed
+
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        // TODO add your handling code here:
+        
+        sendText(textField1.getText(), "agregar");
+        JOptionPane.showMessageDialog(null, "Se ha agregado el valor", "[EDD]Practica2s1_201404218", JOptionPane.INFORMATION_MESSAGE);
+        textField1.setText("");
+    }//GEN-LAST:event_button1ActionPerformed
+
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        // TODO add your handling code here:
+        sendText(textField2.getText(), "borrar");
+        JOptionPane.showMessageDialog(null, "Se ha borrado el valor", "[EDD]Practica2s1_201404218", JOptionPane.INFORMATION_MESSAGE);
+        textField2.setText("");
+    }//GEN-LAST:event_button2ActionPerformed
 
     /**
      * @param args the command line arguments

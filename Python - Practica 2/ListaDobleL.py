@@ -116,3 +116,57 @@ class ListaDobleL():
 				else:
 					nodoAux = nodoAux.getAbajo()
 		return None
+
+
+	def eliminarPorValor(self,valor):
+
+		if self.isEmpty()==False:
+			nodoAux=self.inicio
+
+			while nodoAux!=self.fin.getAbajo():
+				if nodoAux.getValor() == valor:
+
+					#Eliminar
+					#Si es el primer nodo en la lista
+					if nodoAux == self.inicio:
+
+						#Si existe un nodo siguiente
+						if nodoAux.getAbajo() != None:
+
+							self.inicio = nodoAux.getAbajo()
+
+							nodoAux.getAbajo().setArriba(None)
+							self.tamanio = self.tamanio - 1
+
+							break
+
+						#Si es el unico nodo en la lista
+						else:
+							self.inicio = None
+							self.fin = None
+							self.tamanio = 0
+
+							break
+					#Si es el ultimo nodo en la lista
+					elif nodoAux == self.fin:
+
+						#Si existe un nodo anterior (no es el unico nodo en la lista)
+						if nodoAux.getArriba() != None:
+							self.fin = nodoAux.getArriba()
+							nodoAux.getArriba().setAbajo(None)
+							self.tamanio = self.tamanio - 1
+							break
+						#Si no existe un nodo anterior
+						else:
+							self.inicio = None
+							self.fin = None
+							self.tamanio = 0
+							break
+					#Si no es ni el primero ni el ultimo
+					else:
+						nodoAux.getArriba().setAbajo(nodoAux.getAbajo())
+						nodoAux.getAbajo().setArriba(nodoAux.getArriba())
+						self.tamanio=self.tamanio - 1
+						break
+				else:
+					nodoAux = nodoAux.getAbajo()

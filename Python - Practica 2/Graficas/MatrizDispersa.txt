@@ -1,41 +1,23 @@
 digraph Matriz{ bgcolor=red node[fontcolor=black, color=white] [shape=box]
-hotmailcom[style="filled"; label=hotmailcom;pos="1,0!"]
-imagina[style="filled"; label=imagina;pos="2,0!"]
-kfej[style="filled"; label=kfej;pos="3,0!"]
-yahoo[style="filled"; label=yahoo;pos="4,0!"]
+"outlook.com"[style="filled"; label="outlook.com";pos="1,0!"]
+"yahoo.es"[style="filled"; label="yahoo.es";pos="2,0!"]
 a[style ="filled"; label=a;pos= "0,1!"]
 d[style ="filled"; label=d;pos= "0,2!"]
-e[style ="filled"; label=e;pos= "0,3!"]
-j[style ="filled"; label=j;pos= "0,4!"]
-davidtortola_[style ="filled"; label=davidtortola_;pos= "1,2!"]
-elemental2[style ="filled"; label=elemental2;pos= "2,3!"]
-elemental2->elemental->elefante;
-elefante->elemental->elemental2;
-julio[style ="filled"; label=julio;pos= "3,4!"]
-julio->jklef;
-jklef->julio;
-asdf[style ="filled"; label=asdf;pos= "4,1!"]
-hotmailcom->imagina->kfej->yahoo;yahoo->kfej->imagina->hotmailcom;
-a->d->e->j;
-j->e->d->a;
-hotmailcom->davidtortola_;
-imagina->elemental2;
-kfej->julio;
-yahoo->asdf;
+andree[style ="filled"; label=andree;pos= "1,1!"]
+david[style ="filled"; label=david;pos= "2,2!"]
+"outlook.com"->"yahoo.es";"yahoo.es"->"outlook.com";
+a->d;
+d->a;
+"outlook.com"->andree;
+"yahoo.es"->david;
 
 
-a->asdf;
-d->davidtortola_;
-e->elemental2;
-j->julio;
+a->andree;
+d->david;
 
 
-davidtortola_->hotmailcom;
-elemental2->imagina;
-julio->kfej;
-asdf->yahoo;
-asdf->a;
-davidtortola_->d;
-elemental2->e;
-julio->j;
+andree->"outlook.com";
+david->"yahoo.es";
+andree->a;
+david->d;
 }
