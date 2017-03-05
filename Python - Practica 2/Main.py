@@ -12,7 +12,6 @@ lista = lista1.ListaSimple()
 matrizD = MatrizDispersa
 matriz1 = matrizD.MatrizDispersa()
 
-
 @app.route('/listaSimple', methods = ['POST']) 
 def hola():
 	if str(request.form['tipo'])=="agregar":
@@ -43,4 +42,4 @@ def hello():
 
 
 if __name__ == "__main__":
- app.run(debug=True, host='127.0.0.2')
+ app.run(debug=True, host='0.0.0.0')

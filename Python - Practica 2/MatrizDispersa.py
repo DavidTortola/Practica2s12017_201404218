@@ -527,26 +527,21 @@ class MatrizDispersa(object):
 		auxDominio = self.listaDominios.buscar(dominio)
 
 		if auxLetra != None and auxDominio != None:
-
 			temp = auxDominio
-
 			while temp != None:
-
+				temp = temp.getAbajo()
 				#Si existe el nodo en comun
 				if temp.getLetra() == letra:
-
 
 					#El nodo con esa cabecera letra y ese dominio existe
 					listaTemp = temp.getValor()
 					listaTemp.eliminarPorValor(valor)
 
-
 					if listaTemp.inicio==None:
 
 						#Se debe borrar el nodo
-
 						#Si aun queda nodos en la cabecera de dominios
-
+						print self.recorrerCabeceraD()
 						if self.recorrerCabeceraD()>2:
 							#Si el nodo no es el ultimo en la cabecera
 							if temp.getAbajo()!=None:
@@ -573,27 +568,22 @@ class MatrizDispersa(object):
 						elif self.recorrerCabeceraL()==2:
 							self.listaLetras.eliminarPorValor(letra)
 
-					else:
-						#nada
-						listaTemp
 					return True
-				else:
-					temp = temp.getAbajo()
 			#El valor no existe
 			return False
 
 	def recorrerCabeceraD(self):
-		contador = 0
+		contador = 1
 		nodoAux = self.listaDominios.inicio
-		while nodoAux != None:
+		while nodoAux.getAbajo() != None:
 			contador=contador+1
 			nodoAux=nodoAux.getAbajo()
 		return contador
 
 	def recorrerCabeceraL(self):
-		contador = 0
+		contador = 1
 		nodoAux = self.listaLetras.inicio
-		while nodoAux != None:
+		while nodoAux.getSiguiente() != None:
 			contador=contador+1
 			nodoAux=nodoAux.getSiguiente()
 		return contador

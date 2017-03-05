@@ -37,7 +37,7 @@ public class Practica2s12017_201404218 {
     public static String getString(String metodo, RequestBody formBody) {
 
         try {
-            URL url = new URL("http://127.0.0.2:5000/" + metodo);
+            URL url = new URL("http://0.0.0.0:5000/" + metodo);
             Request request = new Request.Builder().url(url).post(formBody).build();
             Response response = webClient.newCall(request).execute();//Aqui obtiene la respuesta en dado caso si hayas pues un return en python
             String response_string = response.body().string();//y este seria el string de las respuesta

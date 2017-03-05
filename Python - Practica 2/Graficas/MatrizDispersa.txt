@@ -1,23 +1,16 @@
 digraph Matriz{ bgcolor=red node[fontcolor=black, color=white] [shape=box]
-"outlook.com"[style="filled"; label="outlook.com";pos="1,0!"]
-"yahoo.es"[style="filled"; label="yahoo.es";pos="2,0!"]
+"out"[style="filled"; label="out";pos="1,0!"]
 a[style ="filled"; label=a;pos= "0,1!"]
-d[style ="filled"; label=d;pos= "0,2!"]
-andree[style ="filled"; label=andree;pos= "1,1!"]
-david[style ="filled"; label=david;pos= "2,2!"]
-"outlook.com"->"yahoo.es";"yahoo.es"->"outlook.com";
-a->d;
-d->a;
-"outlook.com"->andree;
-"yahoo.es"->david;
+beto[style ="filled"; label=beto;pos= "1,None!"]
+"out";"out";
+a;
+a;
+"out"->beto;
 
 
-a->andree;
-d->david;
+a->andrea;
 
 
-andree->"outlook.com";
-david->"yahoo.es";
-andree->a;
-david->d;
+beto->"out";
+andrea->a;
 }
