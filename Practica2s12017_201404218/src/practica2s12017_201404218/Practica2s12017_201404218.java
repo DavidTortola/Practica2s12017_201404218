@@ -16,36 +16,38 @@ import java.net.URL;
 import java.util.logging.Level;
 
 /**
- *
- * @author David Tórtola
+ * @author Osmel David Tórtola Tistoj, Carné: 201404218
  */
 public class Practica2s12017_201404218 {
 
     public static OkHttpClient webClient = new OkHttpClient();
 
-    /**
-     * @param args the command line arguments
-     */
     public static Menu menu1 = new Menu();
 
+    //Método principal
     public static void main(String[] args) {
-        // TODO code application logic here
-        
         menu1.setVisible(true);
     }
 
+    //Método que conecta con el servidor de python
     public static String getString(String metodo, RequestBody formBody) {
 
         try {
+            
             URL url = new URL("http://0.0.0.0:5000/" + metodo);
             Request request = new Request.Builder().url(url).post(formBody).build();
-            Response response = webClient.newCall(request).execute();//Aqui obtiene la respuesta en dado caso si hayas pues un return en python
-            String response_string = response.body().string();//y este seria el string de las respuesta
+            Response response = webClient.newCall(request).execute();
+            String response_string = response.body().string();
             return response_string;
+            
         } catch (MalformedURLException ex) {
+            
             java.util.logging.Logger.getLogger(practica2s12017_201404218.Practica2s12017_201404218.class.getName()).log(Level.SEVERE, null, ex);
+        
         } catch (Exception ex) {
+         
             java.util.logging.Logger.getLogger(practica2s12017_201404218.Practica2s12017_201404218.class.getName()).log(Level.SEVERE, null, ex);
+        
         }
         return null;
     }

@@ -1,4 +1,8 @@
+#Clase Lista Simple, utiliza nodos tipo simples con un enlace
+#Creado por Osmel David Tortola Tistoj, Carne: 201404218
+
 import NodoListaSimple
+import subprocess
 lista = NodoListaSimple
 
 
@@ -78,3 +82,18 @@ class ListaSimple():
 					nodoAux=nodoAux.getSiguiente()
 		return -1
 
+	def graficarLista(self):
+
+		if self.inicio!=None:
+			file=open("Graficas\ListaSimple.txt","w")
+			file.write("digraph Matriz{ bgcolor=red node[fontcolor=black, color=white] [shape=box]\n")
+			nodoAux=self.inicio
+			file.write(nodoAux.getValor())
+			nodoAux = nodoAux.getSiguiente()
+			while nodoAux!=None:
+
+					file.write("->" +nodoAux.getValor())
+					nodoAux=nodoAux.ge
+					tSiguiente()
+			file.write("}")
+			subprocess.Popen("dot -Tpng Graficas\ListaSimple.txt -o Graficas\ListaSimple.png")

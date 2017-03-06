@@ -5,8 +5,10 @@
  */
 package practica2s12017_201404218;
 
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.RequestBody;
 import javax.swing.JOptionPane;
-import static practica2s12017_201404218.MenuLista.sendText;
+import static practica2s12017_201404218.Practica2s12017_201404218.getString;
 
 /**
  *
@@ -96,10 +98,20 @@ public class MenuMatrizDispersa extends javax.swing.JFrame {
         button4.setBackground(new java.awt.Color(255, 255, 255));
         button4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         button4.setLabel("Buscar");
+        button4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button4ActionPerformed(evt);
+            }
+        });
 
         button5.setBackground(new java.awt.Color(255, 255, 255));
         button5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         button5.setLabel("Buscar");
+        button5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button5ActionPerformed(evt);
+            }
+        });
 
         textField4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
@@ -191,7 +203,7 @@ public class MenuMatrizDispersa extends javax.swing.JFrame {
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         // TODO add your handling code here:
-        
+
         sendText(textField1.getText(), "agregar");
         JOptionPane.showMessageDialog(null, "Se ha agregado el valor", "[EDD]Practica2s1_201404218", JOptionPane.INFORMATION_MESSAGE);
         textField1.setText("");
@@ -203,6 +215,38 @@ public class MenuMatrizDispersa extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Se ha borrado el valor", "[EDD]Practica2s1_201404218", JOptionPane.INFORMATION_MESSAGE);
         textField2.setText("");
     }//GEN-LAST:event_button2ActionPerformed
+
+    private void button5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button5ActionPerformed
+        // TODO add your handling code here:
+
+        String valor = sendText(textField4.getText(), "buscarDominio");
+        String[] valores;
+        valores = valor.split("/");
+        String valor2 = valores[0];
+        int i;
+        System.out.println("--------------------------------------------");
+        System.out.println("Los correos en el dominio " +textField4.getText()+" son:");
+        for (i = 0; i < valores.length; i++) {
+
+            valor2 = valores[i];
+            System.out.println(valor2);
+        }
+    }//GEN-LAST:event_button5ActionPerformed
+
+    private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
+        // TODO add your handling code here:
+        String valor = sendText(textField3.getText(), "buscarLetra");
+        String[] valores;
+        valores = valor.split("/");
+        String valor2 = valores[0];
+        int i;
+        System.out.println("--------------------------------------------");
+        System.out.println("Los correos que empiezan con letra \"" +textField3.getText()+"\" son:");
+        for (i = 0; i < valores.length; i++) {
+            valor2 = valores[i];
+            System.out.println(valor2);
+        }
+    }//GEN-LAST:event_button4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,12 +283,22 @@ public class MenuMatrizDispersa extends javax.swing.JFrame {
         });
     }
 
+    public static String sendText(String informacion, String tipo) {
+
+        RequestBody formBody = new FormEncodingBuilder()
+                .add("tipo", tipo)
+                .add("informacion", informacion)
+                .build();
+        String r = getString("matrizDispersa", formBody);
+        return r;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button button1;
     private java.awt.Button button2;
     private java.awt.Button button3;
     private java.awt.Button button4;
-    private java.awt.Button button5;
+    private static java.awt.Button button5;
     private javax.swing.JPanel jPanel1;
     private java.awt.Label label1;
     private java.awt.Label label2;

@@ -5,6 +5,11 @@
  */
 package practica2s12017_201404218;
 
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.RequestBody;
+import javax.swing.JOptionPane;
+import static practica2s12017_201404218.Practica2s12017_201404218.getString;
+
 /**
  *
  * @author David Tórtola
@@ -43,10 +48,20 @@ public class MenuPila extends javax.swing.JFrame {
         button1.setBackground(new java.awt.Color(255, 255, 255));
         button1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         button1.setLabel("Push");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
 
         button2.setBackground(new java.awt.Color(255, 255, 255));
         button2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         button2.setLabel("Pop");
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
 
         button3.setBackground(new java.awt.Color(255, 255, 255));
         button3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -113,6 +128,18 @@ public class MenuPila extends javax.swing.JFrame {
         Practica2s12017_201404218.menu1.setVisible(true);
     }//GEN-LAST:event_button3ActionPerformed
 
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        // TODO add your handling code here:
+        
+        sendText(textField1.getText(), "push");
+        textField1.setText("");
+    }//GEN-LAST:event_button1ActionPerformed
+
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        // TODO add your handling code here:
+        textField1.setText(sendText(textField1.getText(), "pop"));
+    }//GEN-LAST:event_button2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -146,6 +173,16 @@ public class MenuPila extends javax.swing.JFrame {
                 new MenuPila().setVisible(true);
             }
         });
+    }
+
+    public static String sendText(String informacion, String tipo) {
+
+        RequestBody formBody = new FormEncodingBuilder()
+                .add("tipo", tipo)
+                .add("informacion", informacion)
+                .build();
+        String r = getString("pila", formBody);
+        return r;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

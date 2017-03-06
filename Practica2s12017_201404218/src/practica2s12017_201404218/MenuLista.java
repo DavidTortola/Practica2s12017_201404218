@@ -202,10 +202,10 @@ public class MenuLista extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         if ((sendText(textField3.getText(), "buscar").equals("-1"))) {
-                    JOptionPane.showMessageDialog(null, "Valor no encontrado en lista", "[EDD]Practica2s1_201404218", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "NO SE ENCONTRÓ EL DATO", "[EDD]Practica2s1_201404218", JOptionPane.INFORMATION_MESSAGE);
             textField3.setText("");
         } else {
-            JOptionPane.showMessageDialog(null, "Valor en la posición: " + sendText(textField3.getText(), "buscar"), "[EDD]Practica2s1_201404218", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "DATO SE ENCUENTRA EN EL ÍNDICE: " + sendText(textField3.getText(), "buscar"), "[EDD]Practica2s1_201404218", JOptionPane.INFORMATION_MESSAGE);
             textField3.setText("");
         }
 

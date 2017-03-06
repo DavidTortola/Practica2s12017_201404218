@@ -1,4 +1,5 @@
-#Clase MatrizDispersa, que utiliza listas dobles como cabeceras
+#Clase MatrizDispersa, que utiliza listas dobles como cabeceras y nodos de cuatro apuntadores
+#Creado por Osmel David Tortola Tistoj, Carne: 201404218
 
 import ListaDoble
 import NodoDoble
@@ -24,6 +25,50 @@ class MatrizDispersa(object):
 		letra = valor[:1]
 
 		self.insertar(letra,dominio,valor)
+
+	#Metodo principal que recibe un correo y lo divide para insertarlo en la matriz
+	def borrar(self,correo):
+
+		valores = correo.split("@")
+		valor = valores[0]
+		dominio = valores[1]
+		letra = valor[:1]
+
+		self.eliminar(letra,dominio,valor)
+
+	#Metodo utilizado para la funcion buscar por dominio, devuelve un string de todos los correos
+	#con el dominio que recibe como parametro con un '/' entre ellos
+	def buscarDominio(self,dominio):
+		nodoAux = self.listaDominios.buscar(dominio)
+		lista =""
+		if nodoAux != None:
+			while nodoAux.getAbajo() != None:
+				nodoAux = nodoAux.getAbajo()
+				nodoAux2=nodoAux.getValor().getInicio()
+				if nodoAux2!=None:
+					lista = lista +str(nodoAux2.getValor()) +"@" +str(dominio)+"/"
+					nodoAux2 = nodoAux2.getSiguiente()
+					while nodoAux2!=None:
+						lista = lista +str(nodoAux2.getValor())+"@" +str(dominio)  +"/"
+						nodoAux2 = nodoAux2.getSiguiente()
+		return lista
+
+	#Metodo utilizado para la funcion buscar por letra, devuelve un string de todos los correos
+	#con la letra que recibe como parametro con un '/' entre ellos
+	def buscarLetra(self,letra):
+		nodoAux = self.listaLetras.buscar(letra)
+		lista =""
+		if nodoAux != None:
+			while nodoAux.getSiguiente() != None:
+				nodoAux = nodoAux.getSiguiente()
+				nodoAux2=nodoAux.getValor().getInicio()
+				if nodoAux2!=None:
+					lista = lista +str(nodoAux2.getValor()) +"@" +str(nodoAux.getDominio())+"/"
+					nodoAux2 = nodoAux2.getSiguiente()
+					while nodoAux2!=None:
+						lista = lista +str(nodoAux2.getValor()) +"@" +str(nodoAux.getDominio())+"/"
+						nodoAux2 = nodoAux2.getSiguiente()
+		return lista
 
 	#Insertar un valor en la matriz
 	def insertar(self, letra, dominio, valor):
@@ -82,7 +127,7 @@ class MatrizDispersa(object):
 						else:
 							nodoAux = nodoAux.getAbajo()
 
-					listaTemp = NodoAuxiliarDominio.getValor()	# ------------------> AQUI SE DEBE AGREGAR A LA FUTURA LISTA DEL NODO
+					listaTemp = NodoAuxiliarDominio.getValor()
 					listaTemp.add(valor)
 				#Caso 2: No existe un nodo en comun entre las cabeceras, se debe crear el nodo en medio.
 				else:
@@ -521,6 +566,7 @@ class MatrizDispersa(object):
 				y=y+1
 				auxLetra=auxLetra.getAbajo()
 
+	#Metodo que recibe los parametros de un nodo a eliminar
 	def eliminar(self,letra,dominio,valor):
 
 		auxLetra = self.listaLetras.buscar(letra)
@@ -540,9 +586,11 @@ class MatrizDispersa(object):
 					if listaTemp.inicio==None:
 
 						#Se debe borrar el nodo
+						print str(self.recorrerCabeceraD(dominio)) +" aaa"
+						print str(self.recorrerCabeceraL(letra)) +" bbb"
+
 						#Si aun queda nodos en la cabecera de dominios
-						print self.recorrerCabeceraD()
-						if self.recorrerCabeceraD()>2:
+						if self.recorrerCabeceraD(dominio)!=1:
 							#Si el nodo no es el ultimo en la cabecera
 							if temp.getAbajo()!=None:
 								temp.getArriba().setAbajo(temp.getAbajo())
@@ -552,11 +600,11 @@ class MatrizDispersa(object):
 								temp.getArriba().setAbajo(None)
 
 						#Si no queda ningun nodo en la cabecera de dominios
-						elif self.recorrerCabeceraD()==2:
+						else:
 							self.listaDominios.eliminarPorValor(dominio)
-
 						#Si aun quedan nodos en cabecera de letra
-						if self.recorrerCabeceraL()>2:
+						print str(self.recorrerCabeceraL(letra)) +" ccc"
+						if self.recorrerCabeceraL(letra)!=1:
 							if temp.getSiguiente()!=None:
 								temp.getAnterior().setSiguiente(temp.getSiguiente())
 								temp.getSiguiente().setAnterior(temp.getAnterior())
@@ -565,30 +613,65 @@ class MatrizDispersa(object):
 								temp.getAnterior().setSiguiente(None)
 
 						#Si no queda ningun nodo en la cabecera de letras
-						elif self.recorrerCabeceraL()==2:
+						else:
 							self.listaLetras.eliminarPorValor(letra)
 
 					return True
 			#El valor no existe
 			return False
 
-	def recorrerCabeceraD(self):
-		contador = 1
+	#Este metodo se usa para revisar si en una cabecera quedan nodos
+	def recorrerCabeceraD(self,valor):
+		contador2 = 0
 		nodoAux = self.listaDominios.inicio
-		while nodoAux.getAbajo() != None:
-			contador=contador+1
-			nodoAux=nodoAux.getAbajo()
-		return contador
+		actual = nodoAux
+		while nodoAux!=None:
+			if nodoAux.getValor()==valor:
 
-	def recorrerCabeceraL(self):
-		contador = 1
+				nodoAux2 = self.listaLetras.inicio
+				while nodoAux2!=None and actual.getAbajo()!=None:
+
+					if actual.getAbajo()!=None:
+						actual=actual.getAbajo()
+
+					contador2 = contador2+1
+
+					nodoAux2 = nodoAux2.getAbajo()
+
+				break
+			else:
+				nodoAux=nodoAux.getSiguiente()
+				actual=nodoAux
+		return contador2
+
+	#Este metodo se usa para revisar si en una cabecera de letras quedan nodos
+	def recorrerCabeceraL(self,valor):
+		contador3 = 0
 		nodoAux = self.listaLetras.inicio
-		while nodoAux.getSiguiente() != None:
-			contador=contador+1
-			nodoAux=nodoAux.getSiguiente()
-		return contador
+		actual = nodoAux
 
 
+		while nodoAux != None:
+
+
+			if nodoAux.getValor()==valor:
+				nodoAux2 = self.listaLetras.inicio
+				while nodoAux2!=None and actual.getSiguiente()!=None:
+					if actual.getSiguiente()!=None:
+						actual=actual.getSiguiente()
+					contador3 = contador3+1
+					nodoAux2=nodoAux2.getSiguiente()
+				break
+
+
+			else:
+				nodoAux = nodoAux.getAbajo()
+				actual = nodoAux
+
+
+		return contador3
+
+	#Se usa para recorrer la lista de nombres en cierto nodo
 	def graficarNombres(self,lista,file):
 		if lista.tamanio>1:
 			file.write(lista.inicio.getValor()+"")
@@ -606,14 +689,3 @@ class MatrizDispersa(object):
 				auxiliar=auxiliar.getAnterior()
 				file.write("->"+auxiliar.getValor())
 			file.write(";\n")
-
-
-	#Metodo principal que recibe un correo y lo divide para insertarlo en la matriz
-	def borrar(self,correo):
-
-		valores = correo.split("@")
-		valor = valores[0]
-		dominio = valores[1]
-		letra = valor[:1]
-
-		self.eliminar(letra,dominio,valor)

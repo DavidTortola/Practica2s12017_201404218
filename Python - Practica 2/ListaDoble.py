@@ -1,4 +1,6 @@
-#Clase de lista doblemente enlazada que usa nodos tipo nodo doble
+#Clase de lista doblemente enlazada que usa nodos tipo nodo doble, es de modo horizontal (Siguiente, anterior)
+#Creado por Osmel David Tortola Tistoj, Carne: 201404218
+
 import NodoDoble
 nd = NodoDoble
 
