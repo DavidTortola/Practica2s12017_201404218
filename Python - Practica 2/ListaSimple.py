@@ -93,7 +93,7 @@ class ListaSimple():
 			while nodoAux!=None:
 
 					file.write("->" +nodoAux.getValor())
-					nodoAux=nodoAux.ge
-					tSiguiente()
+					nodoAux=nodoAux.getSiguiente()
+
 			file.write("}")
 			subprocess.Popen("dot -Tpng Graficas\ListaSimple.txt -o Graficas\ListaSimple.png")

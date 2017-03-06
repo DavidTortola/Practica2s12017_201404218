@@ -2,6 +2,7 @@
 #Creado por Osmel David Tortola Tistoj, Carne: 201404218
 
 import ListaSimple 
+import ListaDoble
 import MatrizDispersa
 import Pila
 import Cola
